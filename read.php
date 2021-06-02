@@ -103,7 +103,7 @@
                 <br />
                 <p><?php echo getNLikes($con, $pid); ?> people like this blog.</p>
                 <br />
-                <h3>Comments (<?php echo getNComments($con, $pid); ?>)</h3>
+                <h3>Comments</h3>
                 <br>
                 <div id="comms">
 

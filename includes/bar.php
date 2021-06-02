@@ -2,10 +2,12 @@
   <div class="container">
     <ul class="nav navbar-nav">
       <li>
-          <form action="">
-            <input type="text" placeholder="Search.." id="search_input" name="search" onkeyup="javascript:searchD();">
-            <button name="submit" id="search_submit" type="submit" onclick="javascript:event.preventDefault()"><i class="fa fa-search"></i></button>
-          </form>
+          <table>
+            <tr>
+              <td><input type="text" placeholder="Search.." class="form-control" id="search_input" name="search" onkeyup="javascript:searchD();"></td>
+              <td><button class="btn btn-info" name="submit" id="search_submit" type="submit" onclick="javascript:event.preventDefault()"><i class="fa fa-search"></i></button></td> 
+            </tr>
+          </table>
           <div id="sug"></div>
       </li>
     </ul>

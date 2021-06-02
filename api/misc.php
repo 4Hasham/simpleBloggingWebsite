@@ -52,4 +52,11 @@
             return "Could not get best posts.";
         }
     }
+
+    function getUserPosts($con, $id) {
+        $sql = mysqli_prepare($con, "SELECT * FROM `posts` WHERE `auth`=? AND `parent`=0");
+        mysqli_stmt_bind_param($sql, "i", $id);
+        mysqli_stmt_execute($sql);
+        return mysqli_stmt_get_result($sql);
+    }
 ?>

@@ -9,24 +9,28 @@
         if(isset($_FILES['img'])) {
             $target_dir = "../blogon/assets/dp/";
             $target_file = $target_dir . basename($_FILES['img']['name']);
-            $uploadOk = 1;
             $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
-            $check = getimagesize($_FILES['img']['tmp_name']);
-            if($check !== false) {
-                move_uploaded_file($_FILES['img']['tmp_name'], $target_file);
-                $about = mysqli_escape_string($con, trim($_POST['about']));
-                if($about != '') {
-                    $sql = mysqli_prepare($con, "UPDATE `users` SET `about`=?, `dp`=? WHERE `ID`=?");
-                    mysqli_stmt_bind_param($sql, "sss", $about, $target_file, $_SESSION['id']);
-                    if(mysqli_stmt_execute($sql)) {
-                        $msg = "Profile Updated!";
-                    }
-                    else {
-                        $msg = "Something went wrong.";
-                    }
+            if(file_exists($_FILES['img']['tmp_name']) && is_uploaded_file($_FILES['img']['tmp_name'])) {
+                $check = getimagesize($_FILES['img']['tmp_name']);
+                if($check !== false) {
+                    move_uploaded_file($_FILES['img']['tmp_name'], $target_file);
+                    $sql = mysqli_prepare($con, "UPDATE `users` SET `dp`=? WHERE `ID`=?");
+                    mysqli_stmt_bind_param($sql, "si", $target_file, $_SESSION['id']);
+                    mysqli_stmt_execute($sql);
+                } else {
+                    $msg = "File is not an image.";
                 }
-            } else {
-                $msg = "File is not an image.";
+            }
+        }
+        $about = mysqli_escape_string($con, trim($_POST['about']));
+        if($about != '') {
+            $sql = mysqli_prepare($con, "UPDATE `users` SET `about`=? WHERE `ID`=?");
+            mysqli_stmt_bind_param($sql, "ss", $about, $_SESSION['id']);
+            if(mysqli_stmt_execute($sql)) {
+                $msg = "Profile Updated!";
+            }
+            else {
+                $msg = "Something went wrong.";
             }
         }
     }
